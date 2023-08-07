@@ -1,6 +1,6 @@
 /** @format */
 
 export default () => ({
-	isLoading: true,
+	isLoading: false,
 	entries: [],
 });
