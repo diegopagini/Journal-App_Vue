@@ -1,41 +1,37 @@
 <!-- @format -->
 
 <template>
-	<div
-		v-if="entry"
-		class="entry-title d-flex justify-content-between p-2"
-	>
-		<div>
-			<span class="text-succes fs-3 fw-bold">{{ day }}</span>
-			<span class="mx-1 fs-3">{{ month }}</span>
-			<span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
+	<template v-if="entry">
+		<div class="entry-title d-flex justify-content-between p-2">
+			<div>
+				<span class="text-succes fs-3 fw-bold">{{ day }}</span>
+				<span class="mx-1 fs-3">{{ month }}</span>
+				<span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
+			</div>
+
+			<div>
+				<button class="btn btn-danger mx-2">Borrar <i class="fa fa-trash-alt"></i></button>
+				<button class="btn btn-primary">Subir foto <i class="fa fa-upload"></i></button>
+			</div>
 		</div>
 
-		<div>
-			<button class="btn btn-danger mx-2">Borrar <i class="fa fa-trash-alt"></i></button>
-			<button class="btn btn-primary">Subir foto <i class="fa fa-upload"></i></button>
+		<hr />
+
+		<div class="d-flex flex-column px-2 h-75">
+			<textarea
+				placeholder="¿Qué sucedió hoy?"
+				v-model="entry.text"
+			></textarea>
 		</div>
-	</div>
 
-	<hr />
+		<Fab icon="fa-save" />
 
-	<div
-		v-if="entry"
-		class="d-flex flex-column px-2 h-75"
-	>
-		<textarea
-			placeholder="¿Qué sucedió hoy?"
-			v-model="entry.text"
-		></textarea>
-	</div>
-
-	<Fab icon="fa-save" />
-
-	<img
-		src="https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?cs=srgb&dl=pexels-eberhard-grossgasteiger-1287145.jpg&fm=jpg"
-		alt="entry-picture"
-		class="img-thumbnail"
-	/>
+		<img
+			src="https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?cs=srgb&dl=pexels-eberhard-grossgasteiger-1287145.jpg&fm=jpg"
+			alt="entry-picture"
+			class="img-thumbnail"
+		/>
+	</template>
 </template>
 
 <script>

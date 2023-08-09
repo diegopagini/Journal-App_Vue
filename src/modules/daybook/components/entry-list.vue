@@ -1,8 +1,5 @@
 <!-- @format -->
 
-import { defineAsyncComponent } from 'vue';
-<!-- @format -->
-
 <template>
 	<div class="entry-list-container">
 		<div class="px-2 pt-2">
