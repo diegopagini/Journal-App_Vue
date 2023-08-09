@@ -1,14 +1,14 @@
 <!-- @format -->
 
-import { defineAsyncComponent } from 'vue';
-<!-- @format -->
-
 <template>
-	<div class="entry-title d-flex justify-content-between p-2">
+	<div
+		v-if="entry"
+		class="entry-title d-flex justify-content-between p-2"
+	>
 		<div>
-			<span class="text-succes fs-3 fw-bold">18</span>
-			<span class="mx-1 fs-3">Julio</span>
-			<span class="mx-2 fs-4 fw-light">2021, Domingo</span>
+			<span class="text-succes fs-3 fw-bold">{{ day }}</span>
+			<span class="mx-1 fs-3">{{ month }}</span>
+			<span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
 		</div>
 
 		<div>
@@ -18,8 +18,15 @@ import { defineAsyncComponent } from 'vue';
 	</div>
 
 	<hr />
-	<div class="d-flex flex-column px-2 h-75">
-		<textarea placeholder="¿Qué sucedió hoy?"></textarea>
+
+	<div
+		v-if="entry"
+		class="d-flex flex-column px-2 h-75"
+	>
+		<textarea
+			placeholder="¿Qué sucedió hoy?"
+			v-model="entry.text"
+		></textarea>
 	</div>
 
 	<Fab icon="fa-save" />
@@ -33,10 +40,54 @@ import { defineAsyncComponent } from 'vue';
 
 <script>
 	import { defineAsyncComponent } from 'vue';
+	import { mapGetters } from 'vuex';
+	import getDayMonthYear from '../helpers/getDayMonthYear';
 
 	export default {
+		props: {
+			id: {
+				type: String,
+				required: true,
+			},
+		},
 		components: {
 			Fab: defineAsyncComponent(() => import('../components/fab-entry.vue')),
+		},
+		data() {
+			return {
+				entry: null,
+			};
+		},
+		methods: {
+			loadEntry() {
+				const entry = this.getEntryById(this.id);
+				if (!entry) return this.$router.push({ name: 'no-entry' });
+
+				this.entry = entry;
+			},
+		},
+		computed: {
+			...mapGetters('journal', ['getEntryById']),
+			day() {
+				const { day } = getDayMonthYear(this.entry.date);
+				return day;
+			},
+			month() {
+				const { month } = getDayMonthYear(this.entry.date);
+				return month;
+			},
+			yearDay() {
+				const { yearDay } = getDayMonthYear(this.entry.date);
+				return yearDay;
+			},
+		},
+		created() {
+			this.loadEntry();
+		},
+		watch: {
+			id(value, oldValue) {
+				if (value !== oldValue) this.loadEntry();
+			},
 		},
 	};
 </script>
