@@ -24,7 +24,10 @@
 			></textarea>
 		</div>
 
-		<Fab icon="fa-save" />
+		<Fab
+			icon="fa-save"
+			@on:click="saveEntry"
+		/>
 
 		<img
 			src="https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?cs=srgb&dl=pexels-eberhard-grossgasteiger-1287145.jpg&fm=jpg"
@@ -33,10 +36,9 @@
 		/>
 	</template>
 </template>
-
 <script>
 	import { defineAsyncComponent } from 'vue';
-	import { mapGetters } from 'vuex';
+	import { mapGetters, mapActions } from 'vuex';
 	import getDayMonthYear from '../helpers/getDayMonthYear';
 
 	export default {
@@ -55,11 +57,15 @@
 			};
 		},
 		methods: {
+			...mapActions('journal', ['updateEntry']),
 			loadEntry() {
 				const entry = this.getEntryById(this.id);
 				if (!entry) return this.$router.push({ name: 'no-entry' });
 
 				this.entry = entry;
+			},
+			async saveEntry() {
+				this.updateEntry(this.entry);
 			},
 		},
 		computed: {

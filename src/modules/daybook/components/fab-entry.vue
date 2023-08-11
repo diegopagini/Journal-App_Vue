@@ -1,7 +1,10 @@
 <!-- @format -->
 
 <template>
-	<button class="btn btn-primary">
+	<button
+		@click="$emit('on:click')"
+		class="btn btn-primary"
+	>
 		<i
 			class="fa fa-2x"
 			:class="icon"

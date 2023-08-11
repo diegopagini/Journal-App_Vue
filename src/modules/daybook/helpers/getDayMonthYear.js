@@ -16,7 +16,7 @@ const months = [
 ];
 const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 const getDayMonthYear = (dateString) => {
-	const date = new Date(dateString);
+	const date = new Date(`${dateString}`);
 
 	return {
 		day: date.getDay(),
