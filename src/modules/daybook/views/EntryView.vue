@@ -72,6 +72,7 @@
 	import uploadImage from '../helpers/uploadImage';
 
 	export default {
+		name: 'entry-view',
 		props: {
 			id: {
 				type: String,
