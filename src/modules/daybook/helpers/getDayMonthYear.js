@@ -16,12 +16,12 @@ const months = [
 ];
 const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 const getDayMonthYear = (dateString) => {
-	const date = new Date(`${dateString}`);
+	const date = new Date(dateString);
 
 	return {
 		day: date.getDay(),
-		month: months.at(date.getMonth()),
-		yearDay: `${date.getFullYear()}, ${days.at(date.getDay())}`,
+		month: months[date.getMonth()],
+		yearDay: `${date.getFullYear()}, ${days[date.getDay()]}`,
 	};
 };
 
