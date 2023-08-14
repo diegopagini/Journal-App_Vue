@@ -19,7 +19,7 @@ const getDayMonthYear = (dateString) => {
 	const date = new Date(dateString);
 
 	return {
-		day: date.getDay(),
+		day: date.getDate(),
 		month: months[date.getMonth()],
 		yearDay: `${date.getFullYear()}, ${days[date.getDay()]}`,
 	};
