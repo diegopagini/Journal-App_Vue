@@ -9,15 +9,29 @@
 				<span class="mx-2 fs-4 fw-light">{{ yearDay }}</span>
 			</div>
 
+			<input
+				v-show="false"
+				type="file"
+				@change="onSelectedImage"
+				ref="imageSelector"
+				accept="image/png, image/jpeg"
+			/>
+
 			<div>
 				<button
-					v-if="entry.id"
+					v-if="entry.id && !localImage"
 					@click="onDeleteEntry"
 					class="btn btn-danger mx-2"
 				>
 					Borrar <i class="fa fa-trash-alt"></i>
 				</button>
-				<button class="btn btn-primary">Subir foto <i class="fa fa-upload"></i></button>
+
+				<button
+					@click="onSelectImage"
+					class="btn btn-primary"
+				>
+					Subir foto <i class="fa fa-upload"></i>
+				</button>
 			</div>
 		</div>
 
@@ -36,7 +50,15 @@
 		/>
 
 		<img
-			src="https://images.pexels.com/photos/1287145/pexels-photo-1287145.jpeg?cs=srgb&dl=pexels-eberhard-grossgasteiger-1287145.jpg&fm=jpg"
+			v-if="entry.picture"
+			:src="entry.picture"
+			alt="entry-picture"
+			class="img-thumbnail"
+		/>
+
+		<img
+			v-if="localImage"
+			:src="localImage"
 			alt="entry-picture"
 			class="img-thumbnail"
 		/>
@@ -47,6 +69,7 @@
 	import { mapGetters, mapActions } from 'vuex';
 	import getDayMonthYear from '../helpers/getDayMonthYear';
 	import Swal from 'sweetalert2';
+	import uploadImage from '../helpers/uploadImage';
 
 	export default {
 		props: {
@@ -61,11 +84,16 @@
 		data() {
 			return {
 				entry: null,
+				localImage: null,
+				file: null,
 			};
 		},
 		methods: {
 			...mapActions('journal', ['updateEntry', 'createEntry', 'deleteEntry']),
 			loadEntry() {
+				this.localImage = null;
+				this.file = null;
+
 				let entry;
 				if (this.id === 'new') {
 					entry = {
@@ -85,6 +113,9 @@
 				});
 				Swal.showLoading();
 
+				const picture = await uploadImage(this.file);
+				this.entry.picture = picture;
+
 				if (this.entry.id) {
 					// Update
 					await this.updateEntry(this.entry);
@@ -94,15 +125,17 @@
 					this.$router.push({ name: 'entry', params: { id } });
 				}
 
+				this.file = null;
+				this.localImage = null;
 				Swal.fire('Guardado', 'Entrada registrada con éxito', 'success');
 			},
 			async onDeleteEntry() {
 				const result = await Swal.fire({
-					icon: 'question',
-					title: '¿Está seguro?',
-					text: 'Una vez borrado, no se puede recuperar',
-					showDenyButton: true,
 					confirmButtonText: 'Si, estoy seguro',
+					icon: 'question',
+					showDenyButton: true,
+					text: 'Una vez borrado, no se puede recuperar',
+					title: '¿Está seguro?',
 				});
 
 				const { isConfirmed } = result;
@@ -120,6 +153,22 @@
 
 					Swal.fire('Eliminado', '', 'success');
 				}
+			},
+			onSelectedImage({ target }) {
+				const file = target.files[0];
+				if (!file) {
+					this.localImage = null;
+					this.file = null;
+					return;
+				}
+
+				this.file = file;
+				const fr = new FileReader();
+				fr.onload = () => (this.localImage = fr.result);
+				fr.readAsDataURL(file);
+			},
+			onSelectImage() {
+				this.$refs.imageSelector.click();
 			},
 		},
 		computed: {
