@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`HomeView Should render the component 1`] = `
+<div class="home">
+  <h1>Hola Mundo</h1><button class="btn btn-primary"> Primary </button>
+</div>
+`;
