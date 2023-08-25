@@ -7,7 +7,7 @@
 			href=""
 		>
 			<img
-				src="@/assets/logo.png"
+				src="assets/logo.png"
 				alt="Vue Logo"
 				class="d-inline-block align-text-top mx-2"
 				height="24"

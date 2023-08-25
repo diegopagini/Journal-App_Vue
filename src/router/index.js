@@ -1,13 +1,15 @@
 /** @format */
+import authRouter from '@/modules/auth/router';
 import daybookRouter from '@/modules/daybook/router';
+import HomeView from '@/views/HomeView.vue';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 const routes = [
-	// {
-	// 	path: '/',
-	// 	name: 'home',
-	// 	component: HomeView,
-	// },
+	{
+		path: '/',
+		name: 'home',
+		component: HomeView,
+	},
 	{
 		path: '/about',
 		name: 'about',
@@ -17,8 +19,12 @@ const routes = [
 		component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue'),
 	},
 	{
-		path: '/',
+		path: '/daybook',
 		...daybookRouter,
+	},
+	{
+		path: '/auth',
+		...authRouter,
 	},
 ];
 
