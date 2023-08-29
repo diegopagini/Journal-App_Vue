@@ -1,5 +1,5 @@
 /** @format */
 
-// export const myGetter = (state) => {
-// 	return state;
-// };
+export const authState = (state) => {
+	return state.status;
+};
