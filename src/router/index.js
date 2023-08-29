@@ -1,5 +1,6 @@
 /** @format */
 import authRouter from '@/modules/auth/router';
+import isAuthenticatedGuard from '@/modules/auth/router/auth-guard';
 import daybookRouter from '@/modules/daybook/router';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
@@ -18,6 +19,7 @@ const routes = [
 	// },
 	{
 		path: '/daybook',
+		beforeEnter: [isAuthenticatedGuard],
 		...daybookRouter,
 	},
 	{
