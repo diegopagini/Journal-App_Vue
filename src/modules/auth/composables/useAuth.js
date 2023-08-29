@@ -8,8 +8,13 @@ const useAuth = () => {
 		return await store.dispatch('auth/createUser', user);
 	};
 
+	const loginUser = async (user) => {
+		return await store.dispatch('auth/signInUser', user);
+	};
+
 	return {
 		createUser,
+		loginUser,
 	};
 };
 
