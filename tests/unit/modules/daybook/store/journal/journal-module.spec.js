@@ -1,4 +1,5 @@
 /** @format */
+import authApi from '@/api/authApi';
 import journal from '@/modules/daybook/store/journal';
 import { createStore } from 'vuex';
 
@@ -15,6 +16,16 @@ const createVuexStore = (initialState) =>
 	});
 
 describe('Vuex - Journal Module', () => {
+	beforeAll(async () => {
+		const { data } = await authApi.post(':signInWithPassword', {
+			email: 'test@test.com',
+			password: '123456',
+			returnSecureToken: true,
+		});
+
+		localStorage.setItem('idToken', data.idToken);
+	});
+
 	// Basic
 	it('should have a initial state', () => {
 		const store = createVuexStore(journalState);
